@@ -1,135 +1,355 @@
-# 🚀 Laboratório DevOps: Aprenda DevOps na Prática com Projetos Progressivos
+# Laboratório DevOps: Aprenda DevOps na Prática com Projetos Progressivos
 
-Olá! Eu sou Maria Lazara, DevOps Engineer, e vou te guiar nessa jornada DevOps. Sei que conceitos como containerização, IaC e CI/CD podem parecer intimidadores no início. Por isso, adoto uma didática simples e prática: vamos construir o conhecimento **de trás pra frente**. Isso significa começar pelo problema real – algo que você pode vivenciar e sentir a dor – e só depois buscar a solução, experimentando ferramentas como Docker, Terraform e GitHub Actions. No final, conectamos à teoria para solidificar o aprendizado.
+Olá! Eu sou Maria Lazara, DevOps Engineer, e vou guiar você nesta jornada DevOps.
 
-Meu foco é ensinar você a resolver problemas comuns que DevOps Engineers enfrentam diariamente, como "funciona na minha máquina, mas não no servidor" ou "deploys manuais causam downtime". Cada projeto aqui é uma peça de um quebra-cabeça: eles se conectam, aumentando a dificuldade gradualmente, simulando uma evolução real de um setup básico para um pipeline DevOps profissional.
+Sei que conceitos como containerização, Infrastructure as Code (IaC) e CI/CD podem parecer intimidadores no início. Por isso, adoto uma didática simples e prática: vamos construir o conhecimento **de trás para frente**.
 
-Este repositório contém 3 pastas, cada uma com um projeto independente, mas interligado:
-- **projeto-devops-fase-1**: O básico – containerize e deploy manual de um site estático na AWS.
-- **projeto-devops-fase-2**: Adicione automação de infraestrutura com Terraform (IaC).
-- **projeto-devops-fase-3**: Full automation com CI/CD usando GitHub Actions + Terraform + Docker.
+Isso significa começar por um problema real — algo que você pode vivenciar e compreender os impactos — e somente depois buscar uma solução, experimentando ferramentas como Docker, Terraform e GitHub Actions. No final, conectamos a prática à teoria para consolidar o aprendizado.
 
-Cada pasta tem seu próprio `README.md` com passos detalhados, incluindo desafios para você simular problemas reais. Baixe o repo, siga os passos e experimente!
+Meu objetivo é ensinar você a resolver problemas comuns que profissionais DevOps enfrentam diariamente, como:
 
-*[Espaço para print: Estrutura do repositório no GitHub, mostrando as 3 pastas]*
+- “Funciona na minha máquina, mas não no servidor.”
+- “Deploys manuais causam indisponibilidade.”
+- “Os ambientes possuem configurações diferentes.”
+- “As alterações de infraestrutura não estão documentadas.”
+- “O processo de publicação depende de uma única pessoa.”
 
-## 📋 Pré-requisitos Técnicos
+Cada projeto deste laboratório representa uma peça de um quebra-cabeça. Os projetos estão conectados e aumentam gradualmente de dificuldade, simulando a evolução de um ambiente básico para um pipeline DevOps profissional.
 
-**⚠️ IMPORTANTE**: Este laboratório é para pessoas com conhecimento básico-intermediário em desenvolvimento e infraestrutura. Não é um curso de fundamentos.
+Este repositório contém três pastas, cada uma com um projeto independente, mas interligado:
 
-### Conhecimentos Obrigatórios:
+- **projeto-devops-fase-1**: fundamentos de containerização e deploy manual de um site estático na AWS.
+- **projeto-devops-fase-2**: automação da infraestrutura utilizando Terraform e Infrastructure as Code.
+- **projeto-devops-fase-3**: automação completa com CI/CD utilizando GitHub Actions, Terraform e Docker.
 
-**🐧 Linux/Unix Básico**
-- Navegação no terminal (ls, cd, mkdir, cp, mv, rm)
-- Edição de arquivos (nano, vim ou VS Code)
-- Permissões básicas (chmod, sudo)
-- SSH e conexões remotas
+Cada pasta possui seu próprio arquivo `README.md`, com instruções detalhadas e desafios para simular problemas reais. Clone o repositório, siga os passos e experimente.
 
-**☁️ AWS Básico**
-- Conceitos de EC2, IAM, VPC, Security Groups
-- Como criar instâncias e configurar acesso
-- AWS CLI configurado e funcional
-- Entender Free Tier e custos básicos
-
-**🐳 Docker Básico-Intermediário**
-- Diferença entre imagem e container
-- Comandos essenciais (build, run, push, pull)
-- Como escrever Dockerfile básico
-- Conceito de registries (Docker Hub, ECR)
-
-**🏗️ Terraform Básico**
-- Conceitos de Infrastructure as Code (IaC)
-- Comandos básicos (init, plan, apply, destroy)
-- Entender HCL (HashiCorp Configuration Language)
-- Conceito de state file
-
-**🔧 Git/GitHub**
-- Comandos básicos (clone, add, commit, push, pull)
-- Criação de repositórios
-- Conceitos de branches
-
-### Auto-avaliação Rápida:
-✅ Consigo criar uma instância EC2 e conectar via SSH?
-✅ Sei fazer build de uma imagem Docker e executar?
-✅ Já usei terraform apply para criar recursos?
-✅ Domino comandos básicos do terminal Linux?
-
-**Se marcou menos de 4 ✅**: Estude os fundamentos primeiro antes de continuar.
+> **Espaço reservado para imagem:** estrutura do repositório no GitHub mostrando as três pastas.
 
 ---
 
-## ❓ Por Que Essa Abordagem "De Trás Pra Frente"?
-Em vez de começar com teoria seca ("o que é Docker?"), vamos imitar a vida real: Você enfrenta um problema concreto, sente a frustração, e então descobre a ferramenta que resolve. Isso torna o aprendizado memorável e prático. Por exemplo:
-- Primeiro, vivencie o caos de um deploy manual.
-- Depois, busque soluções como "como automatizar isso?".
-- Finalmente, entenda a teoria por trás (ex.: "containers isolam dependências").
+## Pré-requisitos Técnicos
 
-Isso é baseado em estudos de problemas: Cada projeto começa com uma situação real, como uma startup crescendo e enfrentando gargalos, inspirada em casos que vi em equipes reais.
+> **IMPORTANTE:** Este laboratório foi desenvolvido para pessoas com conhecimento básico ou intermediário em desenvolvimento e infraestrutura. Não se trata de um curso introdutório sobre fundamentos.
 
-## 🎯 Visão Geral dos Projetos
-Vamos construir um website estático simples (HTML/CSS/JS) e deployá-lo na AWS. Mas o foco não é o site – é o processo DevOps ao redor dele. Cada fase resolve problemas da anterior, adicionando camadas de automação.
+### Conhecimentos obrigatórios
 
-### Projeto 1: Containerização com Docker e Deploy Manual na AWS (Nível Básico)
-- **Problema Real**: Imagine você em uma pequena equipe: O dev altera o código, mas no servidor AWS, "não funciona" por causa de dependências diferentes. Deploys envolvem SSH manual, levando a erros e tempo perdido.
-- **Solução Prática**: Use Docker para "empacotar" o site em um container portátil. Crie um ECR na AWS, push a imagem e deploy manual na EC2.
-- **Ferramentas Aprendidas**: Docker, AWS CLI, ECR, EC2, Security Groups.
-- **Conexão**: Isso resolve o "funciona na minha máquina", mas ainda é manual – preparando o terreno para automação na Fase 2.
-- **Tempo Estimado**: 2-3 horas.
-- **Desafio Inicial**: Tente deployar manualmente sem Docker e veja os erros de dependências.
+#### Linux/Unix básico
 
-*[Espaço para print: Diagrama simples da arquitetura do Projeto 1, mostrando código local → Docker → ECR → EC2 → Browser]*
+- Navegação pelo terminal com `ls`, `cd`, `mkdir`, `cp`, `mv` e `rm`.
+- Edição de arquivos com Nano, Vim ou Visual Studio Code.
+- Gerenciamento básico de permissões com `chmod` e `sudo`.
+- Utilização de SSH e conexões remotas.
 
-### Projeto 2: Automatização de Infraestrutura com Terraform (IaC) (Nível Intermediário)
-- **Problema Real**: Agora a startup cresce: Você precisa recriar ambientes (dev/staging/prod) rapidamente, mas cliques manuais no console AWS causam inconsistências, erros e "drift" (mudanças não rastreadas). Um deploy de emergência falha porque uma configuração foi esquecida.
-- **Solução Prática**: Trate a infra como código com Terraform. Declare recursos como EC2, ECR e IAM Roles em arquivos HCL, e o Terraform provisiona tudo automaticamente.
-- **Ferramentas Aprendidas**: Terraform (init/plan/apply/destroy), backends remotos (S3 para state), outputs para integração.
-- **Conexão**: Integra com o Docker do Projeto 1 – agora a infra é reproduzível, mas o deploy ainda requer SSH manual. Isso motiva a full automation na Fase 3.
-- **Tempo Estimado**: 2-4 horas.
-- **Desafio Inicial**: Tente recriar manualmente o ambiente do Projeto 1 em uma nova região e note os pontos de dor.
+#### AWS básico
 
-*[Espaço para print: Diagrama da arquitetura do Projeto 2, mostrando arquivos Terraform → AWS Infra (EC2/ECR) → Deploy Docker]*
+- Conhecimento dos conceitos de EC2, IAM, VPC e Security Groups.
+- Criação de instâncias e configuração de acesso.
+- AWS CLI instalada, configurada e funcional.
+- Conhecimento básico sobre o Free Tier e os custos dos serviços.
 
-### Projeto 3: Automatização Completa com CI/CD (GitHub Actions + Terraform + Docker) (Nível Avançado)
-- **Problema Real**: Com múltiplos devs, changes diárias viram caos: Deploys manuais criam gargalos, erros humanos e falta de auditabilidade. Um pico de tráfego exige update rápido, mas conflitos no Terraform state causam downtime.
-- **Solução Prática**: Separe repos (app e infra), use GitHub Actions para pipelines CI/CD. Push no código dispara builds Docker, plans Terraform e deploys com aprovações manuais para segurança.
-- **Ferramentas Aprendidas**: GitHub Actions (workflows YAML, secrets, aprovações), integração multi-repo.
-- **Conexão**: Une tudo: Docker do Projeto 1 + Terraform do Projeto 2 em um fluxo automatizado. Agora, é um pipeline DevOps real, escalável para equipes.
-- **Tempo Estimado**: 3-5 horas.
-- **Desafio Inicial**: Simule deploys simultâneos manuais no setup do Projeto 2 e veja conflitos.
+#### Docker básico ou intermediário
 
-*[Espaço para print: Diagrama completo da arquitetura do Projeto 3, mostrando Repos GitHub → Actions CI/CD → AWS Infra + Deploy]*
+- Diferença entre imagem e container.
+- Comandos essenciais, como `build`, `run`, `push` e `pull`.
+- Criação de um Dockerfile básico.
+- Conceito de registries, como Docker Hub e Amazon ECR.
 
-## 🔧 Como Começar
-1. **Clone o Repositório**:
-   ```bash
-   git clone https://github.com/marialazara/devops-projects.git
-   cd seu-repo-devops
-   ```
-2. **Escolha uma Fase**: Comece pela pasta `projeto-devops-fase-1` e avance. Cada README tem pré-requisitos, passos e troubleshooting.
-3. **Ambiente**: Certifique-se de ter uma conta AWS gratuita (cuidado com custos – use Free Tier). Instale ferramentas como Docker, Terraform e AWS CLI conforme descrito.
-4. **Dicas Gerais**:
-   - Use VS Code para editar arquivos.
-   - Sempre teste localmente antes de apply/destroy.
-   - Limpe recursos AWS no final para evitar custos!
-5. **Personalize**: Substitua placeholders (ex.: regiões AWS, nomes de repos) com os seus.
+#### Terraform básico
 
-## 🎓 Conceitos Aprendidos no Geral
-Ao final, você dominará ferramentas chave de um DevOps Engineer:
-- **Containerização** (Docker): Resolve inconsistências de ambiente.
-- **IaC** (Terraform): Automatiza e versiona infra.
-- **CI/CD** (GitHub Actions): Orquestra fluxos para deploys rápidos e seguros.
-- **Melhores Práticas**: Secrets management, aprovações, state locking, drift detection.
+- Conceitos de Infrastructure as Code.
+- Comandos básicos, como `init`, `plan`, `apply` e `destroy`.
+- Conhecimento básico de HCL — HashiCorp Configuration Language.
+- Conceito de arquivo de estado, ou `state file`.
 
-Esses projetos simulam uma progressão real: De manual para IaC para automatizado, resolvendo problemas como escalabilidade, colaboração e erros humanos.
+#### Git e GitHub
 
-## 📚 Recursos Adicionais
-- [Documentação Docker](https://docs.docker.com/)
-- [Terraform Learning](https://learn.hashicorp.com/terraform)
-- [GitHub Actions Docs](https://docs.github.com/en/actions)
-- Livros: "The DevOps Handbook" para teoria aplicada.
-- Comunidades: Reddit r/devops, Stack Overflow.
+- Comandos básicos, como `clone`, `add`, `commit`, `push` e `pull`.
+- Criação e configuração de repositórios.
+- Conceitos básicos de branches.
 
-## 🧹 Notas Finais
-Lembre-se: DevOps é sobre cultura tanto quanto ferramentas – automatize para liberar tempo para inovação. Se travar, pesquise o erro (ex.: "Terraform AMI not found") – isso treina skills reais!
+### Autoavaliação rápida
 
-Desenvolvido com ❤️ por Maria Lazara. Assista ao meu vídeo explicativo no YouTube, onde falo desses projetos e do mundo DevOps: [Link para o Vídeo](https://www.youtube.com/@marialazaradev). Compartilhe seu progresso nos comentários! 🚀
+Antes de começar, verifique se você consegue responder positivamente às seguintes perguntas:
+
+- [ ] Consigo criar uma instância EC2 e conectar nela por SSH?
+- [ ] Sei criar uma imagem Docker e executar um container?
+- [ ] Já utilizei o comando `terraform apply` para criar recursos?
+- [ ] Domino os comandos básicos do terminal Linux?
+
+> Se você respondeu negativamente a mais de uma pergunta, é recomendável revisar os fundamentos antes de continuar.
+
+---
+
+## Por Que Utilizar a Abordagem “De Trás para Frente”?
+
+Em vez de começar somente com conceitos teóricos, como “o que é Docker?”, vamos reproduzir situações próximas da realidade.
+
+Primeiro, você enfrenta um problema concreto e compreende os impactos dele. Depois, pesquisa e implementa uma ferramenta capaz de resolver esse problema. Por fim, estuda os conceitos teóricos relacionados à solução aplicada.
+
+Por exemplo:
+
+1. Primeiro, você vivencia as dificuldades de um deploy manual.
+2. Depois, procura uma maneira de automatizar esse processo.
+3. Finalmente, compreende a teoria relacionada, como o isolamento de dependências proporcionado por containers.
+
+Essa abordagem é baseada na resolução de problemas. Cada projeto começa com uma situação realista, como uma empresa em crescimento enfrentando gargalos técnicos e operacionais.
+
+---
+
+## Visão Geral dos Projetos
+
+Durante o laboratório, construiremos um website estático simples, utilizando HTML, CSS e JavaScript, e realizaremos seu deploy na AWS.
+
+O foco principal, entretanto, não é o desenvolvimento do site, mas o processo DevOps necessário para construí-lo, distribuí-lo e executá-lo.
+
+Cada fase resolve problemas encontrados na fase anterior e adiciona novas camadas de automação.
+
+---
+
+### Projeto 1: Containerização com Docker e Deploy Manual na AWS
+
+**Nível:** básico
+
+#### Problema real
+
+Imagine uma pequena equipe na qual uma alteração funciona corretamente no computador do desenvolvedor, mas apresenta falhas ao ser executada no servidor AWS devido a diferenças de configuração e dependências.
+
+Além disso, os deploys são realizados manualmente por SSH, aumentando o risco de erros e o tempo necessário para publicar uma nova versão.
+
+#### Solução prática
+
+Utilize o Docker para empacotar o site em uma imagem portátil. Crie um repositório no Amazon ECR, envie a imagem e realize o deploy manual em uma instância EC2.
+
+#### Ferramentas e serviços utilizados
+
+- Docker
+- AWS CLI
+- Amazon ECR
+- Amazon EC2
+- AWS Security Groups
+
+#### Conexão com a próxima fase
+
+A containerização ajuda a resolver o problema de inconsistência entre ambientes. Entretanto, o provisionamento da infraestrutura e o deploy ainda são manuais, preparando o cenário para a automação implementada na Fase 2.
+
+#### Tempo estimado
+
+De 2 a 3 horas.
+
+#### Desafio inicial
+
+Tente realizar o deploy manualmente sem utilizar Docker e observe as dificuldades relacionadas às dependências e às diferenças de ambiente.
+
+> **Espaço reservado para imagem:** diagrama da arquitetura do Projeto 1, mostrando código local, Docker, ECR, EC2 e navegador.
+
+---
+
+### Projeto 2: Automação de Infraestrutura com Terraform
+
+**Nível:** intermediário
+
+#### Problema real
+
+A empresa cresceu e agora precisa recriar rapidamente ambientes de desenvolvimento, homologação e produção.
+
+A criação manual de recursos pelo console da AWS causa inconsistências, erros e configurações não rastreadas, também conhecidas como `drift`.
+
+Um deploy emergencial pode falhar porque determinada configuração não foi documentada ou reproduzida corretamente.
+
+#### Solução prática
+
+Trate a infraestrutura como código utilizando Terraform. Declare recursos como EC2, ECR e IAM Roles em arquivos HCL, permitindo que o Terraform provisione e gerencie a infraestrutura automaticamente.
+
+#### Ferramentas e conceitos utilizados
+
+- Terraform
+- `terraform init`
+- `terraform plan`
+- `terraform apply`
+- `terraform destroy`
+- Backend remoto no Amazon S3
+- Gerenciamento do estado do Terraform
+- Outputs para integração com outros processos
+
+#### Conexão com a próxima fase
+
+A Fase 2 integra a infraestrutura criada pelo Terraform com a aplicação containerizada da Fase 1.
+
+A infraestrutura passa a ser reproduzível e versionada, mas o deploy da aplicação ainda depende de procedimentos manuais. Isso prepara o ambiente para a automação completa implementada na Fase 3.
+
+#### Tempo estimado
+
+De 2 a 4 horas.
+
+#### Desafio inicial
+
+Tente recriar manualmente o ambiente do Projeto 1 em uma nova região da AWS e identifique os pontos de dificuldade, repetição e risco de erro.
+
+> **Espaço reservado para imagem:** diagrama da arquitetura do Projeto 2, mostrando os arquivos Terraform, a infraestrutura AWS e o deploy do container Docker.
+
+---
+
+### Projeto 3: Automação Completa com CI/CD
+
+**Nível:** avançado
+
+#### Problema real
+
+Com vários desenvolvedores realizando mudanças diariamente, os deploys manuais podem gerar gargalos, erros humanos, falta de padronização e ausência de auditabilidade.
+
+Atualizações urgentes podem ser comprometidas por processos manuais ou por conflitos no estado do Terraform, causando indisponibilidade e atrasos.
+
+#### Solução prática
+
+Separe os repositórios de aplicação e infraestrutura e utilize GitHub Actions para criar pipelines de CI/CD.
+
+Alterações no código podem iniciar automaticamente os seguintes processos:
+
+- Validação do código.
+- Construção da imagem Docker.
+- Publicação da imagem no registry.
+- Execução do `terraform plan`.
+- Aplicação das alterações de infraestrutura.
+- Deploy da nova versão.
+- Aprovações manuais para ambientes críticos.
+
+#### Ferramentas e conceitos utilizados
+
+- GitHub Actions
+- Workflows YAML
+- GitHub Secrets
+- Aprovações manuais
+- Integração entre múltiplos repositórios
+- Docker
+- Terraform
+- AWS
+
+#### Conexão com as fases anteriores
+
+A Fase 3 integra a containerização desenvolvida no Projeto 1 com a infraestrutura como código criada no Projeto 2.
+
+O resultado é um pipeline DevOps automatizado, rastreável e adequado para o trabalho em equipe.
+
+#### Tempo estimado
+
+De 3 a 5 horas.
+
+#### Desafio inicial
+
+Simule deploys manuais simultâneos no ambiente desenvolvido na Fase 2 e observe os possíveis conflitos e riscos operacionais.
+
+> **Espaço reservado para imagem:** diagrama completo da arquitetura do Projeto 3, mostrando os repositórios GitHub, GitHub Actions, infraestrutura AWS e deploy da aplicação.
+
+---
+
+## Como Começar
+
+### 1. Clone o repositório
+
+```bash
+git clone https://github.com/marialazara/laboratorio-devops.git
+cd laboratorio-devops
+```
+
+### 2. Escolha uma fase
+
+Comece pela pasta `projeto-devops-fase-1` e avance gradualmente.
+
+Cada pasta possui seu próprio arquivo `README.md`, com pré-requisitos, instruções, desafios e orientações para solução de problemas.
+
+### 3. Prepare o ambiente
+
+Certifique-se de possuir uma conta AWS e esteja atento aos custos dos recursos utilizados.
+
+Sempre que possível, utilize recursos elegíveis ao Free Tier e remova os recursos criados ao terminar os exercícios.
+
+Instale e configure as ferramentas necessárias:
+
+- Docker
+- Terraform
+- AWS CLI
+- Git
+- Visual Studio Code ou outro editor de sua preferência
+
+### 4. Siga as recomendações gerais
+
+- Utilize o Visual Studio Code para editar os arquivos.
+- Teste as alterações localmente antes de publicá-las.
+- Analise o resultado do `terraform plan` antes de executar o `terraform apply`.
+- Não armazene credenciais diretamente nos arquivos do repositório.
+- Remova os recursos da AWS ao finalizar o laboratório para evitar custos.
+- Consulte o `git status` antes de realizar commits.
+- Não envie arquivos sensíveis ou credenciais para o GitHub.
+
+### 5. Personalize o projeto
+
+Substitua os valores de exemplo pelos valores relacionados ao seu ambiente, como:
+
+- Região da AWS.
+- Nomes dos repositórios.
+- Identificadores dos recursos.
+- Endereços e nomes das instâncias.
+- Variáveis de ambiente.
+- Secrets utilizados nos pipelines.
+
+---
+
+## Conceitos Aprendidos
+
+Ao final do laboratório, você terá contato prático com ferramentas e conceitos importantes para a atuação de um profissional DevOps.
+
+### Containerização com Docker
+
+A containerização reduz inconsistências entre ambientes e permite distribuir aplicações juntamente com as dependências necessárias para sua execução.
+
+### Infrastructure as Code com Terraform
+
+O Terraform permite criar, modificar e versionar a infraestrutura utilizando código, tornando os ambientes mais reproduzíveis e auditáveis.
+
+### CI/CD com GitHub Actions
+
+O GitHub Actions permite automatizar processos de integração, validação, construção, publicação e deploy de aplicações.
+
+### Melhores práticas
+
+Durante os projetos, você também trabalhará com:
+
+- Gerenciamento de secrets.
+- Aprovações manuais.
+- Controle e bloqueio do estado do Terraform.
+- Identificação de `drift`.
+- Versionamento de infraestrutura.
+- Rastreabilidade de mudanças.
+- Separação entre código da aplicação e código da infraestrutura.
+
+Os projetos simulam uma progressão próxima da realidade: partem de processos manuais, avançam para infraestrutura como código e terminam em um fluxo automatizado de CI/CD.
+
+---
+
+## Recursos Adicionais
+
+- https://docs.docker.com/
+- https://developer.hashicorp.com/terraform
+- https://docs.github.com/actions
+- Livro: *The DevOps Handbook*, para aprofundamento em conceitos e práticas DevOps.
+- Comunidades: https://www.reddit.com/r/devops/ e https://stackoverflow.com/.
+
+---
+
+## Notas Finais
+
+DevOps envolve cultura, processos, colaboração e automação. O objetivo das ferramentas apresentadas neste laboratório é reduzir tarefas manuais, aumentar a confiabilidade dos ambientes e permitir que as equipes dediquem mais tempo à melhoria contínua e à inovação.
+
+Caso encontre algum problema durante os exercícios, pesquise a mensagem de erro, consulte a documentação oficial e procure compreender a causa antes de aplicar uma solução. Essa investigação também faz parte do desenvolvimento das habilidades necessárias para atuar na área.
+
+### Créditos
+
+Este laboratório, incluindo sua metodologia, estrutura, proposta de aprendizagem progressiva e projetos originais, foi desenvolvido por **Maria Lazara**, DevOps Engineer e criadora do conteúdo.
+
+Todo o mérito pela idealização e elaboração do material pertence à autora. A reprodução deste conteúdo neste repositório tem finalidade exclusivamente educacional e de estudo, mantendo os devidos créditos e o reconhecimento pelo trabalho original de Maria Lazara.
+
+Para conhecer outros conteúdos e acompanhar o trabalho da autora, acesse:
+
+- https://www.youtube.com/@marialazaradev
+- https://github.com/marialazara/laboratorio-devops
