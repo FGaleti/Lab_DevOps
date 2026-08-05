@@ -25,7 +25,14 @@ jobs:
             context: .
             file: ./docker/Dockerfile
             push: false
+            load: true
             tags: app:${{ github.sha }}
+
+        - name: Validando a imagem 
+          run: |
+            docker image ls
+            docker container run --rm app:${{ github.sha }} ls -la
+
 
 
 
