@@ -11,5 +11,11 @@ jobs:
         runs-on: ubuntu-latest
         steps:
         - name: Checkout
-          uses: actions/checkout@v6.1.0
-          
+          uses: actions/checkout@v7
+
+        - name: Validando arquivos
+          run: |
+            pwd
+            ls -la
+        
+
