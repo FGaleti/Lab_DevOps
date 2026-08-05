@@ -1,355 +1,160 @@
-# Laboratório DevOps: Aprenda DevOps na Prática com Projetos Progressivos
-
-Olá! Eu sou Maria Lazara, DevOps Engineer, e vou guiar você nesta jornada DevOps.
-
-Sei que conceitos como containerização, Infrastructure as Code (IaC) e CI/CD podem parecer intimidadores no início. Por isso, adoto uma didática simples e prática: vamos construir o conhecimento **de trás para frente**.
-
-Isso significa começar por um problema real — algo que você pode vivenciar e compreender os impactos — e somente depois buscar uma solução, experimentando ferramentas como Docker, Terraform e GitHub Actions. No final, conectamos a prática à teoria para consolidar o aprendizado.
-
-Meu objetivo é ensinar você a resolver problemas comuns que profissionais DevOps enfrentam diariamente, como:
-
-- “Funciona na minha máquina, mas não no servidor.”
-- “Deploys manuais causam indisponibilidade.”
-- “Os ambientes possuem configurações diferentes.”
-- “As alterações de infraestrutura não estão documentadas.”
-- “O processo de publicação depende de uma única pessoa.”
-
-Cada projeto deste laboratório representa uma peça de um quebra-cabeça. Os projetos estão conectados e aumentam gradualmente de dificuldade, simulando a evolução de um ambiente básico para um pipeline DevOps profissional.
-
-Este repositório contém três pastas, cada uma com um projeto independente, mas interligado:
-
-- **projeto-devops-fase-1**: fundamentos de containerização e deploy manual de um site estático na AWS.
-- **projeto-devops-fase-2**: automação da infraestrutura utilizando Terraform e Infrastructure as Code.
-- **projeto-devops-fase-3**: automação completa com CI/CD utilizando GitHub Actions, Terraform e Docker.
-
-Cada pasta possui seu próprio arquivo `README.md`, com instruções detalhadas e desafios para simular problemas reais. Clone o repositório, siga os passos e experimente.
-
-> **Espaço reservado para imagem:** estrutura do repositório no GitHub mostrando as três pastas.
-
----
-
-## Pré-requisitos Técnicos
-
-> **IMPORTANTE:** Este laboratório foi desenvolvido para pessoas com conhecimento básico ou intermediário em desenvolvimento e infraestrutura. Não se trata de um curso introdutório sobre fundamentos.
-
-### Conhecimentos obrigatórios
-
-#### Linux/Unix básico
-
-- Navegação pelo terminal com `ls`, `cd`, `mkdir`, `cp`, `mv` e `rm`.
-- Edição de arquivos com Nano, Vim ou Visual Studio Code.
-- Gerenciamento básico de permissões com `chmod` e `sudo`.
-- Utilização de SSH e conexões remotas.
-
-#### AWS básico
-
-- Conhecimento dos conceitos de EC2, IAM, VPC e Security Groups.
-- Criação de instâncias e configuração de acesso.
-- AWS CLI instalada, configurada e funcional.
-- Conhecimento básico sobre o Free Tier e os custos dos serviços.
-
-#### Docker básico ou intermediário
-
-- Diferença entre imagem e container.
-- Comandos essenciais, como `build`, `run`, `push` e `pull`.
-- Criação de um Dockerfile básico.
-- Conceito de registries, como Docker Hub e Amazon ECR.
-
-#### Terraform básico
-
-- Conceitos de Infrastructure as Code.
-- Comandos básicos, como `init`, `plan`, `apply` e `destroy`.
-- Conhecimento básico de HCL — HashiCorp Configuration Language.
-- Conceito de arquivo de estado, ou `state file`.
-
-#### Git e GitHub
-
-- Comandos básicos, como `clone`, `add`, `commit`, `push` e `pull`.
-- Criação e configuração de repositórios.
-- Conceitos básicos de branches.
-
-### Autoavaliação rápida
-
-Antes de começar, verifique se você consegue responder positivamente às seguintes perguntas:
-
-- [ ] Consigo criar uma instância EC2 e conectar nela por SSH?
-- [ ] Sei criar uma imagem Docker e executar um container?
-- [ ] Já utilizei o comando `terraform apply` para criar recursos?
-- [ ] Domino os comandos básicos do terminal Linux?
-
-> Se você respondeu negativamente a mais de uma pergunta, é recomendável revisar os fundamentos antes de continuar.
-
----
-
-## Por Que Utilizar a Abordagem “De Trás para Frente”?
-
-Em vez de começar somente com conceitos teóricos, como “o que é Docker?”, vamos reproduzir situações próximas da realidade.
-
-Primeiro, você enfrenta um problema concreto e compreende os impactos dele. Depois, pesquisa e implementa uma ferramenta capaz de resolver esse problema. Por fim, estuda os conceitos teóricos relacionados à solução aplicada.
-
-Por exemplo:
-
-1. Primeiro, você vivencia as dificuldades de um deploy manual.
-2. Depois, procura uma maneira de automatizar esse processo.
-3. Finalmente, compreende a teoria relacionada, como o isolamento de dependências proporcionado por containers.
-
-Essa abordagem é baseada na resolução de problemas. Cada projeto começa com uma situação realista, como uma empresa em crescimento enfrentando gargalos técnicos e operacionais.
-
----
-
-## Visão Geral dos Projetos
-
-Durante o laboratório, construiremos um website estático simples, utilizando HTML, CSS e JavaScript, e realizaremos seu deploy na AWS.
-
-O foco principal, entretanto, não é o desenvolvimento do site, mas o processo DevOps necessário para construí-lo, distribuí-lo e executá-lo.
-
-Cada fase resolve problemas encontrados na fase anterior e adiciona novas camadas de automação.
-
----
-
-### Projeto 1: Containerização com Docker e Deploy Manual na AWS
-
-**Nível:** básico
-
-#### Problema real
-
-Imagine uma pequena equipe na qual uma alteração funciona corretamente no computador do desenvolvedor, mas apresenta falhas ao ser executada no servidor AWS devido a diferenças de configuração e dependências.
-
-Além disso, os deploys são realizados manualmente por SSH, aumentando o risco de erros e o tempo necessário para publicar uma nova versão.
-
-#### Solução prática
-
-Utilize o Docker para empacotar o site em uma imagem portátil. Crie um repositório no Amazon ECR, envie a imagem e realize o deploy manual em uma instância EC2.
-
-#### Ferramentas e serviços utilizados
-
-- Docker
-- AWS CLI
-- Amazon ECR
-- Amazon EC2
-- AWS Security Groups
-
-#### Conexão com a próxima fase
-
-A containerização ajuda a resolver o problema de inconsistência entre ambientes. Entretanto, o provisionamento da infraestrutura e o deploy ainda são manuais, preparando o cenário para a automação implementada na Fase 2.
-
-#### Tempo estimado
-
-De 2 a 3 horas.
-
-#### Desafio inicial
-
-Tente realizar o deploy manualmente sem utilizar Docker e observe as dificuldades relacionadas às dependências e às diferenças de ambiente.
-
-> **Espaço reservado para imagem:** diagrama da arquitetura do Projeto 1, mostrando código local, Docker, ECR, EC2 e navegador.
-
----
-
-### Projeto 2: Automação de Infraestrutura com Terraform
-
-**Nível:** intermediário
-
-#### Problema real
-
-A empresa cresceu e agora precisa recriar rapidamente ambientes de desenvolvimento, homologação e produção.
-
-A criação manual de recursos pelo console da AWS causa inconsistências, erros e configurações não rastreadas, também conhecidas como `drift`.
-
-Um deploy emergencial pode falhar porque determinada configuração não foi documentada ou reproduzida corretamente.
-
-#### Solução prática
-
-Trate a infraestrutura como código utilizando Terraform. Declare recursos como EC2, ECR e IAM Roles em arquivos HCL, permitindo que o Terraform provisione e gerencie a infraestrutura automaticamente.
-
-#### Ferramentas e conceitos utilizados
-
-- Terraform
-- `terraform init`
-- `terraform plan`
-- `terraform apply`
-- `terraform destroy`
-- Backend remoto no Amazon S3
-- Gerenciamento do estado do Terraform
-- Outputs para integração com outros processos
-
-#### Conexão com a próxima fase
-
-A Fase 2 integra a infraestrutura criada pelo Terraform com a aplicação containerizada da Fase 1.
-
-A infraestrutura passa a ser reproduzível e versionada, mas o deploy da aplicação ainda depende de procedimentos manuais. Isso prepara o ambiente para a automação completa implementada na Fase 3.
-
-#### Tempo estimado
-
-De 2 a 4 horas.
-
-#### Desafio inicial
-
-Tente recriar manualmente o ambiente do Projeto 1 em uma nova região da AWS e identifique os pontos de dificuldade, repetição e risco de erro.
-
-> **Espaço reservado para imagem:** diagrama da arquitetura do Projeto 2, mostrando os arquivos Terraform, a infraestrutura AWS e o deploy do container Docker.
-
----
-
-### Projeto 3: Automação Completa com CI/CD
-
-**Nível:** avançado
-
-#### Problema real
-
-Com vários desenvolvedores realizando mudanças diariamente, os deploys manuais podem gerar gargalos, erros humanos, falta de padronização e ausência de auditabilidade.
-
-Atualizações urgentes podem ser comprometidas por processos manuais ou por conflitos no estado do Terraform, causando indisponibilidade e atrasos.
-
-#### Solução prática
-
-Separe os repositórios de aplicação e infraestrutura e utilize GitHub Actions para criar pipelines de CI/CD.
-
-Alterações no código podem iniciar automaticamente os seguintes processos:
-
-- Validação do código.
-- Construção da imagem Docker.
-- Publicação da imagem no registry.
-- Execução do `terraform plan`.
-- Aplicação das alterações de infraestrutura.
-- Deploy da nova versão.
-- Aprovações manuais para ambientes críticos.
-
-#### Ferramentas e conceitos utilizados
-
-- GitHub Actions
-- Workflows YAML
-- GitHub Secrets
-- Aprovações manuais
-- Integração entre múltiplos repositórios
-- Docker
-- Terraform
-- AWS
-
-#### Conexão com as fases anteriores
-
-A Fase 3 integra a containerização desenvolvida no Projeto 1 com a infraestrutura como código criada no Projeto 2.
-
-O resultado é um pipeline DevOps automatizado, rastreável e adequado para o trabalho em equipe.
-
-#### Tempo estimado
-
-De 3 a 5 horas.
-
-#### Desafio inicial
-
-Simule deploys manuais simultâneos no ambiente desenvolvido na Fase 2 e observe os possíveis conflitos e riscos operacionais.
-
-> **Espaço reservado para imagem:** diagrama completo da arquitetura do Projeto 3, mostrando os repositórios GitHub, GitHub Actions, infraestrutura AWS e deploy da aplicação.
-
----
-
-## Como Começar
-
-### 1. Clone o repositório
-
-```bash
-git clone https://github.com/marialazara/laboratorio-devops.git
-cd laboratorio-devops
+# Lab_DevOps
+
+Projeto de laboratório prático de DevOps que integra containerização, Infrastructure as Code (IaC) e um pipeline de CI/CD completo, incluindo deploy automatizado com rollback. O objetivo é demonstrar, em um único repositório, o ciclo de vida de uma aplicação desde o código até a execução em produção na AWS.
+
+O projeto adapta a metodologia do laboratório "DevOps na Prática", desenvolvido por Maria Lazara, consolidando as etapas propostas (containerização, IaC e CI/CD) em uma implementação única e integrada.
+
+## Visão geral
+
+A aplicação é um site estático (HTML, CSS e JavaScript) empacotado em uma imagem Docker baseada em Nginx. A infraestrutura de execução é provisionada na AWS via Terraform, e a esteira de integração e entrega contínua é implementada com GitHub Actions, cobrindo build, testes automatizados de fumaça, publicação de imagem e deploy com verificação de saúde e rollback automático em caso de falha.
+
+## Estrutura do repositório
+
+```
+Lab_DevOps/
+├── .github/
+│   └── workflows/
+│       ├── ci.yaml                 # Integração contínua: build e smoke test
+│       ├── cd.yaml                 # Entrega contínua: build, push e deploy
+│       └── validando-runner.yaml   # Diagnóstico do runner self-hosted
+├── app/
+│   ├── index.html
+│   ├── css/
+│   │   └── style.css
+│   └── js/
+│       └── script.js
+├── docker/
+│   ├── Dockerfile
+│   ├── docker-compose.yaml
+│   └── .dockerignore
+├── infrastructure/
+│   └── terraform/
+│       ├── provider.tf
+│       ├── backend.tf
+│       ├── ec2.tf
+│       └── ecr.tf
+├── LICENSE
+└── README.md
 ```
 
-### 2. Escolha uma fase
+## Aplicação
 
-Comece pela pasta `projeto-devops-fase-1` e avance gradualmente.
+Site estático de demonstração, sem dependências de build (HTML, CSS e JavaScript puros). Serve como carga de trabalho para validar todo o pipeline de containerização e deploy, não sendo o foco funcional do projeto.
 
-Cada pasta possui seu próprio arquivo `README.md`, com pré-requisitos, instruções, desafios e orientações para solução de problemas.
+## Containerização
 
-### 3. Prepare o ambiente
+A imagem é construída a partir de `docker/Dockerfile`, utilizando `nginx:alpine` como base:
 
-Certifique-se de possuir uma conta AWS e esteja atento aos custos dos recursos utilizados.
+- O conteúdo de `app/` é copiado para `/usr/share/nginx/html`.
+- A porta 80 é exposta e servida pelo Nginx em primeiro plano.
 
-Sempre que possível, utilize recursos elegíveis ao Free Tier e remova os recursos criados ao terminar os exercícios.
+O arquivo `docker/docker-compose.yaml` define como o container é executado em produção:
 
-Instale e configure as ferramentas necessárias:
+- A imagem é parametrizada pela variável de ambiente `APP_IMAGE`, definida em tempo de deploy.
+- O container é publicado na porta `8080:80` e configurado com `restart: unless-stopped`.
+- Um healthcheck HTTP (`wget --spider`) verifica a disponibilidade da aplicação a cada 10 segundos.
+- Um `.dockerignore` dedicado impede que arquivos de documentação, controle de versão e artefatos temporários sejam enviados ao contexto de build.
 
-- Docker
-- Terraform
-- AWS CLI
-- Git
-- Visual Studio Code ou outro editor de sua preferência
+## Infraestrutura (Terraform)
 
-### 4. Siga as recomendações gerais
+A infraestrutura é declarada em `infrastructure/terraform` e provisiona os recursos necessários na região `us-east-1`:
 
-- Utilize o Visual Studio Code para editar os arquivos.
-- Teste as alterações localmente antes de publicá-las.
-- Analise o resultado do `terraform plan` antes de executar o `terraform apply`.
-- Não armazene credenciais diretamente nos arquivos do repositório.
-- Remova os recursos da AWS ao finalizar o laboratório para evitar custos.
-- Consulte o `git status` antes de realizar commits.
-- Não envie arquivos sensíveis ou credenciais para o GitHub.
+| Arquivo | Recurso | Descrição |
+|---|---|---|
+| `provider.tf` | Provider AWS | Define a região utilizada pelos recursos. |
+| `backend.tf` | Backend remoto S3 | Armazena o `state` do Terraform de forma centralizada e versionada. |
+| `ecr.tf` | `aws_ecr_repository` | Repositório privado (`site_prod`) para armazenar as imagens Docker da aplicação. |
+| `ec2.tf` | `aws_instance` + `aws_security_group` | Instância EC2 (`t2.micro`) com IAM Instance Profile associado ao ECR, e um Security Group com regras de entrada para SSH, HTTP e HTTPS, e saída irrestrita. |
 
-### 5. Personalize o projeto
+Pontos de atenção sobre a configuração atual:
 
-Substitua os valores de exemplo pelos valores relacionados ao seu ambiente, como:
+- O acesso SSH está restrito por CIDR, mas o valor `seu-ip/32` em `ec2.tf` é um placeholder e deve ser substituído pelo IP real autorizado antes de qualquer `terraform apply`.
+- O `key_name` (`chave-site-prod`) e o IAM Instance Profile (`ECR-EC2-Role`) precisam existir previamente na conta AWS utilizada, pois não são criados por este código.
+- O bucket do backend remoto é específico do ambiente do autor e deve ser ajustado para outros usos do repositório.
 
-- Região da AWS.
-- Nomes dos repositórios.
-- Identificadores dos recursos.
-- Endereços e nomes das instâncias.
-- Variáveis de ambiente.
-- Secrets utilizados nos pipelines.
+## Pipeline de CI (`ci.yaml`)
 
----
+Disparado em `push` e `pull_request` para a branch `main`, e também manualmente via `workflow_dispatch`.
 
-## Conceitos Aprendidos
+Etapas executadas:
 
-Ao final do laboratório, você terá contato prático com ferramentas e conceitos importantes para a atuação de um profissional DevOps.
+1. Checkout do código.
+2. Build da imagem Docker com Buildx, carregada localmente (`load: true`, `push: false`), sem publicação em registry.
+3. Validação básica da imagem gerada (listagem e inspeção do conteúdo do container).
+4. Teste de fumaça: o container é executado localmente na porta 8080, e um laço de repetição tenta requisições HTTP por até 15 tentativas antes de considerar falha.
 
-### Containerização com Docker
+Configurações adicionais do workflow:
 
-A containerização reduz inconsistências entre ambientes e permite distribuir aplicações juntamente com as dependências necessárias para sua execução.
+- `concurrency` cancela execuções redundantes na mesma referência de branch.
+- `permissions: contents: read` restringe o token do job ao mínimo necessário.
+- `timeout-minutes` evita que o job fique preso indefinidamente.
 
-### Infrastructure as Code com Terraform
+## Pipeline de CD (`cd.yaml`)
 
-O Terraform permite criar, modificar e versionar a infraestrutura utilizando código, tornando os ambientes mais reproduzíveis e auditáveis.
+Disparado automaticamente ao final de uma execução bem-sucedida do workflow de CI (`workflow_run`), ou manualmente via `workflow_dispatch`.
 
-### CI/CD com GitHub Actions
+O pipeline é dividido em dois jobs:
 
-O GitHub Actions permite automatizar processos de integração, validação, construção, publicação e deploy de aplicações.
+**build-and-push** (`ubuntu-latest`)
+- Autentica no Docker Hub.
+- Constrói a imagem e publica duas tags: uma vinculada ao commit (`IMAGE_TAG`) e outra `latest`.
 
-### Melhores práticas
+**deploy** (runner self-hosted, depende de `build-and-push`)
+- Identifica a imagem atualmente em execução, para permitir rollback posterior.
+- Valida a existência do arquivo `docker-compose.yaml` e sua configuração.
+- Baixa a nova imagem e recria o container via `docker compose up -d --force-recreate`.
+- Executa uma verificação de saúde HTTP com múltiplas tentativas.
+- Em caso de falha na verificação: coleta diagnóstico (logs e estado do container) e executa rollback automático para a imagem anterior, validando novamente a disponibilidade da aplicação.
+- Exibe, ao final, o estado consolidado do container, independentemente do resultado.
 
-Durante os projetos, você também trabalhará com:
+Este desenho implementa deploy com verificação de saúde e rollback automático, reduzindo o risco de indisponibilidade em publicações com falha.
 
-- Gerenciamento de secrets.
-- Aprovações manuais.
-- Controle e bloqueio do estado do Terraform.
-- Identificação de `drift`.
-- Versionamento de infraestrutura.
-- Rastreabilidade de mudanças.
-- Separação entre código da aplicação e código da infraestrutura.
+## Verificação do runner self-hosted (`validando-runner.yaml`)
 
-Os projetos simulam uma progressão próxima da realidade: partem de processos manuais, avançam para infraestrutura como código e terminam em um fluxo automatizado de CI/CD.
+Workflow de diagnóstico, disparado manualmente, utilizado para confirmar que o runner self-hosted está operacional antes de habilitá-lo para deploys: verifica identidade do usuário, sistema operacional, versão do Docker e do Docker Compose, e containers em execução.
 
----
+## Requisitos de execução
 
-## Recursos Adicionais
+Para reproduzir o pipeline completo, são necessários:
 
-- https://docs.docker.com/
-- https://developer.hashicorp.com/terraform
-- https://docs.github.com/actions
-- Livro: *The DevOps Handbook*, para aprofundamento em conceitos e práticas DevOps.
-- Comunidades: https://www.reddit.com/r/devops/ e https://stackoverflow.com/.
+- Conta AWS com permissões para EC2, ECR, IAM e S3.
+- Terraform instalado, para provisionamento da infraestrutura.
+- Uma instância EC2 configurada como runner self-hosted do GitHub Actions (com Docker e Docker Compose instalados), utilizada pelo job de deploy.
+- Os seguintes secrets configurados no repositório do GitHub:
+  - `DOCKER_USERNAME`: usuário do Docker Hub.
+  - `DOCKERHUB_KEY`: token de acesso ao Docker Hub.
 
----
+## Execução local da aplicação
 
-## Notas Finais
+Para testar a aplicação isoladamente, sem depender do pipeline:
 
-DevOps envolve cultura, processos, colaboração e automação. O objetivo das ferramentas apresentadas neste laboratório é reduzir tarefas manuais, aumentar a confiabilidade dos ambientes e permitir que as equipes dediquem mais tempo à melhoria contínua e à inovação.
+```bash
+docker build -t app:local -f docker/Dockerfile .
+docker run -d -p 8080:80 --name app-local app:local
+curl http://localhost:8080
+```
 
-Caso encontre algum problema durante os exercícios, pesquise a mensagem de erro, consulte a documentação oficial e procure compreender a causa antes de aplicar uma solução. Essa investigação também faz parte do desenvolvimento das habilidades necessárias para atuar na área.
+Para simular o deploy via Docker Compose:
 
-### Créditos
+```bash
+APP_IMAGE=app:local docker compose -f docker/docker-compose.yaml up -d
+```
 
-Este laboratório, incluindo sua metodologia, estrutura, proposta de aprendizagem progressiva e projetos originais, foi desenvolvido por **Maria Lazara**, DevOps Engineer e criadora do conteúdo.
+## Provisionamento da infraestrutura
 
-Todo o mérito pela idealização e elaboração do material pertence à autora. A reprodução deste conteúdo neste repositório tem finalidade exclusivamente educacional e de estudo, mantendo os devidos créditos e o reconhecimento pelo trabalho original de Maria Lazara.
+```bash
+cd infrastructure/terraform
+terraform init
+terraform plan
+terraform apply
+```
 
-Para conhecer outros conteúdos e acompanhar o trabalho da autora, acesse:
+Recomenda-se sempre revisar a saída do `terraform plan` antes de aplicar alterações, e executar `terraform destroy` ao encerrar os testes, para evitar custos desnecessários na conta AWS.
 
-- https://www.youtube.com/@marialazaradev
-- https://github.com/marialazara/laboratorio-devops
+## Licença
+
+Este projeto está licenciado sob os termos da licença MIT. Consulte o arquivo `LICENSE` para mais detalhes.
+
+## Créditos
+
+A metodologia e a proposta pedagógica original deste laboratório foram desenvolvidas por Maria Lazara, DevOps Engineer. Este repositório representa uma implementação e adaptação prática dessa metodologia, integrando containerização, Infrastructure as Code e um pipeline de CI/CD completo em um único projeto.
