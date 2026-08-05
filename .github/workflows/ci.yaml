@@ -33,7 +33,16 @@ jobs:
             docker image ls
             docker container run --rm app:${{ github.sha }} ls -la
 
+        - name: Smoke Test Simples
+          run: |
+            docker container run -d -p 8080:80 --name app-container app:${{ github.sha }} 
+            sleep 10   
+            docker container ls -a
+            curl -f http://localhost:8080 || exit 1
+            docker container rm -f app-container
 
+
+            
 
 
             
