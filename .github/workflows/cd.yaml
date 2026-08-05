@@ -19,13 +19,14 @@ permissions:
 env:
   IMAGE_NAME: app
   IMAGE_TAG: ${{ github.event.workflow_run.head_sha || github.sha }}
-  COMPOSE_FILE: docker/compose.yaml
+  COMPOSE_FILE: docker/docker-compose.yaml
   CONTAINER_NAME: app-container
   APPLICATION_URL: http://localhost:8080
 
 jobs:
   build-and-push:
     name: Build e publicação da imagem
+
     if: >
       github.event_name == 'workflow_dispatch' ||
       github.event.workflow_run.conclusion == 'success'
@@ -54,12 +55,13 @@ jobs:
           context: .
           file: ./docker/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+            ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest
 
   deploy:
-    name: Deployment com Docker Compose
-    needs:
-      - build-and-push
+    name: Deploy no runner self-hosted
+    needs: build-and-push
 
     runs-on:
       - self-hosted
@@ -81,6 +83,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_KEY }}
 
       - name: Definir imagens do deployment
+        shell: bash
         run: |
           NEW_IMAGE="${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}"
 
@@ -99,10 +102,22 @@ jobs:
           if [ -n "$OLD_IMAGE" ]; then
             echo "Imagem anterior: $OLD_IMAGE"
           else
-            echo "Nenhuma versão anterior foi encontrada"
+            echo "Nenhuma imagem anterior encontrada."
+            echo "Este será o primeiro deployment."
           fi
 
-      - name: Validar Docker Compose
+      - name: Verificar arquivo Docker Compose
+        shell: bash
+        run: |
+          echo "Diretório atual:"
+          pwd
+
+          echo "Arquivo Compose:"
+          ls -la "${{ env.COMPOSE_FILE }}"
+
+          test -f "${{ env.COMPOSE_FILE }}"
+
+      - name: Validar configuração do Docker Compose
         env:
           APP_IMAGE: ${{ env.NEW_IMAGE }}
         run: |
@@ -124,16 +139,11 @@ jobs:
             --force-recreate \
             --remove-orphans
 
-      - name: Health check e rollback
+      - name: Validar nova versão
+        id: healthcheck
         shell: bash
-        env:
-          APP_IMAGE: ${{ env.NEW_IMAGE }}
         run: |
-          set -u
-
-          echo "Validando a aplicação em ${{ env.APPLICATION_URL }}"
-
-          HEALTHY=false
+          echo "Validando aplicação em ${{ env.APPLICATION_URL }}"
 
           for attempt in $(seq 1 15); do
             echo "Tentativa $attempt de 15..."
@@ -146,36 +156,52 @@ jobs:
               "${{ env.APPLICATION_URL }}" \
               > /dev/null; then
 
-              HEALTHY=true
               echo "Aplicação validada com sucesso."
-              break
+              exit 0
             fi
 
             sleep 2
           done
 
-          if [ "$HEALTHY" = "true" ]; then
-            exit 0
-          fi
+          echo "A nova versão não respondeu corretamente."
+          exit 1
 
-          echo "Health check da nova versão falhou."
-          echo "Logs da nova versão:"
+      - name: Exibir diagnóstico da nova versão
+        if: failure() && steps.healthcheck.outcome == 'failure'
+        shell: bash
+        run: |
+          echo "=== Containers ==="
+          docker container ls -a
 
+          echo "=== Logs do container ==="
           docker container logs \
             --tail 100 \
             "${{ env.CONTAINER_NAME }}" || true
 
-          if [ -z "${{ env.OLD_IMAGE }}" ]; then
-            echo "Não existe uma imagem anterior para rollback."
+          echo "=== Estado do container ==="
+          docker container inspect \
+            --format '{{json .State}}' \
+            "${{ env.CONTAINER_NAME }}" || true
 
-            docker compose \
-              -f "${{ env.COMPOSE_FILE }}" \
-              down || true
+      - name: Executar rollback
+        id: rollback
+        if: failure() && steps.healthcheck.outcome == 'failure'
+        shell: bash
+        run: |
+          if [ -z "${{ env.OLD_IMAGE }}" ]; then
+            echo "Não existe uma versão anterior para rollback."
+            echo "Removendo o primeiro deployment com falha."
+
+            APP_IMAGE="${{ env.NEW_IMAGE }}" \
+              docker compose \
+                -f "${{ env.COMPOSE_FILE }}" \
+                down || true
 
             exit 1
           fi
 
-          echo "Iniciando rollback para: ${{ env.OLD_IMAGE }}"
+          echo "Restaurando imagem anterior:"
+          echo "${{ env.OLD_IMAGE }}"
 
           docker pull "${{ env.OLD_IMAGE }}" || true
 
@@ -188,8 +214,6 @@ jobs:
 
           echo "Validando a versão restaurada..."
 
-          ROLLBACK_HEALTHY=false
-
           for attempt in $(seq 1 15); do
             echo "Tentativa de rollback $attempt de 15..."
 
@@ -201,38 +225,42 @@ jobs:
               "${{ env.APPLICATION_URL }}" \
               > /dev/null; then
 
-              ROLLBACK_HEALTHY=true
               echo "Rollback concluído e validado."
-              break
+              exit 0
             fi
 
             sleep 2
           done
 
-          if [ "$ROLLBACK_HEALTHY" != "true" ]; then
-            echo "A versão restaurada também não passou no health check."
+          echo "A versão anterior também não respondeu corretamente."
 
-            docker container logs \
-              --tail 100 \
-              "${{ env.CONTAINER_NAME }}" || true
-          fi
+          docker container logs \
+            --tail 100 \
+            "${{ env.CONTAINER_NAME }}" || true
 
           exit 1
 
-      - name: Estado final do deployment
+      - name: Exibir estado final
         if: always()
+        shell: bash
         run: |
-          echo "=== Containers ==="
+          echo "=== Containers existentes ==="
           docker container ls -a
 
-          echo "=== Imagem aplicada ==="
+          echo "=== Imagem atualmente configurada ==="
           docker container inspect \
             --format '{{.Config.Image}}' \
             "${{ env.CONTAINER_NAME }}" \
             2>/dev/null || echo "Container não encontrado"
 
-          echo "=== Estado de saúde ==="
+          echo "=== Estado do container ==="
           docker container inspect \
-            --format '{{if .State.Health}}{{.State.Health.Status}}{{else}}healthcheck indisponível{{end}}' \
+            --format '{{.State.Status}}' \
+            "${{ env.CONTAINER_NAME }}" \
+            2>/dev/null || true
+
+          echo "=== Estado do healthcheck interno ==="
+          docker container inspect \
+            --format '{{if .State.Health}}{{.State.Health.Status}}{{else}}Healthcheck não definido{{end}}' \
             "${{ env.CONTAINER_NAME }}" \
             2>/dev/null || true

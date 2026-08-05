@@ -1,16 +1,25 @@
-version: '1.0'
-
 services:
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ${APP_IMAGE:?A variavel APP_IMAGE deve ser informada}
+    container_name: app-container
+
     ports:
-      - "80:80"
-    volumes:
-      - ./app:/usr/share/nginx/html
+      - "8080:80"
+
+    restart: unless-stopped
+
     networks:
       - webnet
 
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - wget --quiet --spider http://127.0.0.1/ || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
 networks:
   webnet:
+    driver: bridge
