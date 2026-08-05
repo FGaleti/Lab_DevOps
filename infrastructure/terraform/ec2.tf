@@ -12,9 +12,7 @@ resource "aws_instance" "app_server" {
   }
 }
 
-####################
-#  Security Group  #
-####################
+#  Security Group  
 
 resource "aws_security_group" "website_sg" {
   name   = "website-sg"
