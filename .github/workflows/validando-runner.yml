@@ -1,0 +1,50 @@
+name: Self-hosted Runner Check
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  runner-check:
+    name: Validar runner self-hosted
+    runs-on: [self-hosted, Linux, X64]
+    timeout-minutes: 5
+
+    steps:
+      - name: Informações do runner
+        run: |
+          echo "=== Hostname ==="
+          hostname
+
+          echo "=== Usuário ==="
+          whoami
+
+          echo "=== Identidade e grupos ==="
+          id
+
+          echo "=== Diretório de trabalho ==="
+          pwd
+
+          echo "=== Sistema operacional ==="
+          uname -a
+
+      - name: Validar Docker
+        run: |
+          docker version
+          docker info --format 'Docker Server: {{.ServerVersion}}'
+
+      - name: Validar Docker Compose
+        run: |
+          docker compose version
+
+      - name: Verificar containers existentes
+        run: |
+          docker container ls -a
+
+      - name: Resumo
+        run: |
+          echo "Runner self-hosted validado com sucesso."
+          echo "Host: $(hostname)"
+          echo "Usuário: $(whoami)"
