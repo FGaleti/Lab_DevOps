@@ -45,6 +45,6 @@ jobs:
 
       - name: Resumo
         run: |
-          echo "Runner self-hosted validado com sucesso."
+          echo "Runner self-hosted validado"
           echo "Host: $(hostname)"
           echo "Usuário: $(whoami)"
