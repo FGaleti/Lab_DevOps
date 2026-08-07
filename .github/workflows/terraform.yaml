@@ -10,6 +10,25 @@ on:
         options:
           - 'false'
           - 'true'
+
+
+      destroy:
+        description: 'Executar o terraform destroy ?'
+        required: true
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
+          
+      plan_destroy:
+        description: 'Executar o terraform destroy plan ?'
+        required: true
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
     
 
 permissions:
@@ -52,11 +71,16 @@ jobs:
           run: terraform validate
         
         - name: Terraform Plan
-          run: terraform plan -out=tfplan
+          run: terraform plan -out=tfplan.tfout
         
         - name: Terraform Apply
-          run: terraform apply -auto-approve tfplan
+          run: terraform apply -auto-approve tfplan.tfout
           if: github.event.inputs.apply == 'true'
-
+        - name: Terraform Plan Destroy
+          run: terraform plan -destroy -out=tfplan.tfout
+          if: github.event.inputs.plan_destroy == 'true'
+        - name: Terraform Destroy
+          run: terraform destroy -destroy -auto-approve tfplan.tfout
+          if: github.event.inputs.destroy == 'true'  
         
         
